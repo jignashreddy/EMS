@@ -24,14 +24,17 @@ try:
     sql_select_Query = f"use `{database}` "
     cursor.execute(sql_select_Query)
     users_table = """CREATE TABLE `users` (
-                `user_id` int(11) NOT NULL AUTO_INCREMENT,
-                `username` varchar(45) DEFAULT NULL,
-                `email_id` varchar(45) DEFAULT NULL,
-                `password` varchar(45) DEFAULT NULL,
-                `status` varchar(45) DEFAULT 'offline',
-                PRIMARY KEY (`user_id`),
-                UNIQUE KEY `User_id_UNIQUE` (`user_id`)
-                    ) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"""
+                    `user_id` int(11) NOT NULL AUTO_INCREMENT,
+                    `username` varchar(45) DEFAULT NULL,
+                    `email_id` varchar(45) DEFAULT NULL,
+                    `password` varchar(45) DEFAULT NULL,
+                    `status` varchar(45) DEFAULT 'offline',
+                    `name` varchar(45) DEFAULT NULL,
+                    PRIMARY KEY (`user_id`),
+                    UNIQUE KEY `User_id_UNIQUE` (`user_id`),
+                    UNIQUE KEY `username_UNIQUE` (`username`),
+                    UNIQUE KEY `email_id_UNIQUE` (`email_id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=1014 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"""
     cursor.execute(users_table)
 
 except Error as e:
