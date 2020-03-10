@@ -45,7 +45,6 @@ class Usermanagement:
             if (self.connection.is_connected()):
                 self.connection.close()
                 cursor.close()
-                print("MySQL connection is closed")
         return res
 
     def deluser(self,username):
@@ -63,7 +62,6 @@ class Usermanagement:
             if (self.connection.is_connected()):
                 self.connection.close()
                 cursor.close()
-                print("MySQL connection is closed")
         return res
 
 
@@ -82,9 +80,52 @@ class Usermanagement:
             if (self.connection.is_connected()):
                 self.connection.close()
                 cursor.close()
-                print("MySQL connection is closed")
         return res
 
-    def fetchuser():
-        pass
+    def validateuser(self,userentry):
+        try:
+            cursor = self.connection.cursor()
+            check_user_Query = f"SELECT * FROM `{database}`.`users` WHERE (`username` = '{userentry}' OR `email_id` = '{userentry}')"
+            print(check_user_Query)
+            cursor.execute(check_user_Query)
+            result = cursor.fetchall()
+            if(result):
+                res = "User record found successfully"
+                response=True
+            else:
+                res = "No such record Found"
+                response=False
+        except Error as e:
+            print("Error reading data from MySQL table", e)
+            response = ("Exception raised",e)
+
+        finally:
+            if (self.connection.is_connected()):
+                self.connection.close()
+                cursor.close()
+        return response
+
+    def validatepassword(self,userentry=None,password=None):
+        try:
+            cursor = self.connection.cursor()
+            check_user_pass = f"SELECT `password` FROM `{database}`.`users` WHERE (`username` = '{userentry}' OR `email_id` = '{userentry}')"
+            print(check_user_pass)
+            cursor.execute(check_user_pass)
+            passy = cursor.fetchall()[0][0]
+            pasy = base64.b64decode(passy.encode('ascii'))
+            if(password==pasy.decode('ascii')):
+                res = "User record updated successfully"
+                response=True
+            else:
+                res = "No such record Found"
+                response=False
+        except Error as e:
+            print("Error reading data from MySQL table", e)
+            response = ("Exception raised",e)
+
+        finally:
+            if (self.connection.is_connected()):
+                self.connection.close()
+                cursor.close()
+        return response
     
